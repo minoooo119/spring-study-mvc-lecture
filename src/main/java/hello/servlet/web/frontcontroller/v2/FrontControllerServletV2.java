@@ -45,7 +45,7 @@ public class FrontControllerServletV2 extends HttpServlet {
             return;
         }
         System.out.println("controllerV2 = " + controllerV2);
-        MyView view = controllerV2.process(request, response);
-        view.render(request, response);
+        MyView view = controllerV2.process(request, response); //controller 가 view 객체를 반환해줌
+        view.render(request, response); // 해당 view 객체가 render 를 통해 뷰를 보여주게 된다.
     }
 }
