@@ -55,6 +55,9 @@ public class FrontControllerServletV5 extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("FrontControllerServletV5.service");
 
+        /**
+         * 1. handler 매핑 정보로 handler 조회
+         */
         Object handler = getHandler(request);
 
         //해당 URI 에 맞는 컨트롤러를 뽑아낸다.
@@ -66,11 +69,23 @@ public class FrontControllerServletV5 extends HttpServlet {
             return;
         }
         //먼저 핸들러 지원하는 어뎁터를 찾아야함.
+        /**
+         * 2. handler 처리할 수 있는 adapter 조회
+         */
         MyHandlerAdapter adapter= getHandlerAdapter(handler);
         System.out.println("v3, v4 중 ? adapter = " + adapter);
+
+        /**
+         * 3. adapter 가 handler 호출한다.
+         * 4. modelView 를 반환해준다.
+         */
         ModelView mv = adapter.handle(request, response, handler);
 
         String viewName = mv.getViewName();
+        /**
+         * 5. ViewResolver 로 View 반환
+         * 6. render 에 model 넣어주면서 view 보여준다.
+         */
         MyView myView = viewResolver(viewName);
 
         myView.render(mv.getModel(), request, response);
